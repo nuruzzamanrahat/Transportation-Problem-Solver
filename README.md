@@ -1,7 +1,7 @@
 # Project: Interactive Transportation Problem Solver
 
-### 🔗 Live Demo & Usage
-[► View Live Demo](https://nuruzzamanrahat.github.io/Transportation-Problem-Solver/) 🔗
+###  Live Demo & Usage
+🔗 [► View Live Demo](https://nuruzzamanrahat.github.io/Transportation-Problem-Solver/) 
  
 
 ## Project Overview
@@ -147,15 +147,5 @@ VAM provides a feasible starting solution. MODI ensures **optimality** by improv
    -  **Initial Solution (VAM):**  
      Shows the first feasible plan and cost before optimization.
 
----
 
-## 📸 Example Output
-
-> *Add a screenshot of your running web app here.*
-
-![App Screenshot Placeholder](assets/screenshot-placeholder.png)
-
----
-
-## 📂 Project Structure
 
