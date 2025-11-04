@@ -1,117 +1,161 @@
-Project: Interactive Transportation Problem Solver
+# 🚚 Project 2: Interactive Transportation Problem Solver
 
-Live Demo & Usage
+### 🔗 Live Demo & Usage
+> **View Live Demo:** [🔗 *Add your GitHub Pages link here after deployment*]  
+*(Example: https://yourusername.github.io/transportation-solver/)*
 
-► View Live Demo
+## 🧭 Project Overview
 
-Project Overview
+This project is an **interactive web application** that solves the **classic Transportation Problem** from *Operations Research*.  
 
-This project is an interactive web application that solves the classic Transportation Problem from Operations Research. Given a set of suppliers (sources) with limited capacities, a set of customers (destinations) with specific demands, and the cost to ship one unit from each source to each destination, this tool finds the shipping plan that minimizes the total transportation cost.
+Given:
+- A set of **suppliers (sources)** with limited supply capacities.
+- A set of **customers (destinations)** with specific demand requirements.
+- The **cost matrix** representing the cost to ship one unit from each source to each destination.
 
-This implementation is a direct application of two key optimization algorithms from your syllabus:
+The tool finds the **optimal shipping plan** that **minimizes total transportation cost**.
 
-Phase 1: Vogel's Approximation Method (VAM) - A sophisticated heuristic used to find a high-quality Initial Basic Feasible Solution (IBFS).
+### 📘 Optimization Algorithms Used
 
-Phase 2: Modified Distribution (MODI) / UV Method - An iterative optimization algorithm (based on the principles of the Simplex dual) that checks the IBFS for optimality and improves it until the minimum cost solution is guaranteed.
+This project directly implements two key algorithms from your Operations Research syllabus:
 
-The Mathematical Model
+#### **Phase 1:** Vogel’s Approximation Method (VAM)
+A heuristic algorithm that finds a **high-quality Initial Basic Feasible Solution (IBFS)**.
 
-The goal is to minimize the total cost Z:
+#### **Phase 2:** Modified Distribution (MODI / UV Method)
+An iterative optimization algorithm that tests and **improves the IBFS** to ensure **global optimality**.
 
-$$Z = \sum_{i=1}^{m} \sum_{j=1}^{n} c_{ij} x_{ij}
-$$Where:
+---
 
-* `m` = number of sources
-* `n` = number of destinations
-* `c_ij` = cost of shipping one unit from source `i` to destination `j`
-* `x_ij` = number of units to ship from source `i` to destination `j`
+## 🧮 The Mathematical Model
 
-Subject to the constraints:
+We aim to **minimize the total cost** \( Z \):
 
-1.  **Supply Constraints:** The total shipped *from* a source cannot exceed its supply.$$
+\[
+Z = \sum_{i=1}^{m} \sum_{j=1}^{n} c_{ij} x_{ij}
+\]
 
-$$\\sum\_{j=1}^{n} x\_{ij} \\le s\_i \\quad \\text{for } i = 1, 2, ..., m
+Where:
+- \( m \) = number of sources  
+- \( n \) = number of destinations  
+- \( c_{ij} \) = cost of shipping one unit from source *i* to destination *j*  
+- \( x_{ij} \) = quantity shipped from source *i* to destination *j*  
 
-$$
-$$(Where `s_i` is the supply at source `i`)
+### Subject to Constraints:
 
+1. **Supply Constraints**  
+   Total shipped *from* each source ≤ its supply  
+   \[
+   \sum_{j=1}^{n} x_{ij} \le s_i \quad \forall i = 1, 2, …, m
+   \]
 
-Demand Constraints: The total shipped to a destination must meet its demand.
+2. **Demand Constraints**  
+   Total shipped *to* each destination ≥ its demand  
+   \[
+   \sum_{i=1}^{m} x_{ij} \ge d_j \quad \forall j = 1, 2, …, n
+   \]
 
-$$\\ \sum\_{i=1}^{m} x\_{ij} \ge d\_j \quad \text{for } j = 1, 2, ..., n$$
+3. **Non-negativity**  
+   \[
+   x_{ij} \ge 0
+   \]
 
-$$$$(Where d_j is the demand at destination j)
+---
 
-Non-negativity: You cannot ship a negative number of items.
+## 🧠 Methodology
 
-$$\\ x\_{ij} \ge 0$$
+### 🧩 **Phase 1: Vogel’s Approximation Method (VAM)**
 
-$$$$
+To begin optimization, we need a feasible initial solution.  
+VAM is a **smart heuristic** that provides an excellent starting solution — often close to the optimal one.
 
-Methodology
+**Steps of VAM:**
+1. **Calculate Penalties:**  
+   For each row and column, find the difference between the two smallest costs.  
+   This represents the penalty for not using the cheapest route.
+2. **Select Maximum Penalty:**  
+   Choose the row or column with the highest penalty.
+3. **Allocate:**  
+   In that selected row/column, find the cell with the lowest cost.
+4. **Assign Maximum Units:**  
+   Allocate as many units as possible, limited by available supply and demand.
+5. **Update:**  
+   Adjust supply/demand and remove satisfied rows or columns.
+6. **Repeat** until all supply and demand are met.
 
-Phase 1: Vogel's Approximation Method (VAM)
+---
 
-To find an optimal solution, we must first have a feasible solution. While we could use simple methods like the Northwest Corner Rule, VAM is a much smarter heuristic that often gives a solution very close to the optimal one, saving optimization time.
+### 🔁 **Phase 2: Modified Distribution Method (MODI / UV Method)**
 
-VAM works as follows:
+VAM provides a feasible starting solution. MODI ensures **optimality** by improving it iteratively.
 
-Calculate Penalties: For each row and column, find the difference between the two lowest costs. This "penalty" represents the cost of not using the cheapest route.
+**Steps of MODI:**
 
-Select Max Penalty: Find the row or column with the highest penalty.
+1. **Check for Degeneracy:**  
+   A non-degenerate solution must have exactly \( m + n - 1 \) allocated cells.
 
-Allocate: In that selected row or column, find the cell with the lowest cost.
+2. **Calculate \( u_i \) and \( v_j \):**  
+   For all allocated cells, solve:  
+   \[
+   c_{ij} = u_i + v_j
+   \]  
+   Start with \( u_1 = 0 \) and compute all other \( u \) and \( v \) values.
 
-Assign Max Flow: Allocate as many units as possible to this cell, limited by the available supply and demand.
+3. **Compute Opportunity Costs \( d_{ij} \):**  
+   For unallocated cells:  
+   \[
+   d_{ij} = c_{ij} - u_i - v_j
+   \]
 
-Update: Satisfy the supply or demand, and remove the corresponding row or column.
+4. **Check for Optimality:**  
+   - If all \( d_{ij} \ge 0 \): current solution is **optimal**.  
+   - If any \( d_{ij} < 0 \): the solution can be **improved**.
 
-Repeat: Go back to Step 1 and repeat until all supplies and demands are met.
+5. **Improve the Solution:**  
+   - Select the cell with the **most negative \( d_{ij} \)**.  
+   - Form a **closed loop** (stepping-stone path) of allocated cells.  
+   - Identify “+” and “–” corners along the loop.  
+   - Adjust allocations: add to “+” cells, subtract from “–” cells using the smallest “–” value.
 
-Phase 2: MODI (UV) Method for Optimality
+6. **Repeat Steps 2–5** until optimality is reached.
 
-VAM gives a good start, but it doesn't guarantee optimality. The MODI (Modified Distribution) method checks and improves the solution.
+---
 
-Check for Degeneracy: A non-degenerate solution must have exactly m + n - 1 allocated cells (where m = rows, n = columns). This app's implementation has basic handling for this.
+## 🧑‍💻 How to Use the App
 
-Calculate u and v values: Set up a system of equations for all allocated cells based on the formula: c_ij = u_i + v_j. We set u_1 = 0 and solve for all other u and v values.
+1. **Define Sources:**  
+   Click “Add Source” to create supply points and specify their capacities.
 
-Calculate Opportunity Costs (d_ij): For all unallocated cells, calculate the opportunity cost: d_ij = c_ij - u_i - v_j.
+2. **Define Destinations:**  
+   Click “Add Destination” to create demand points and specify their requirements.
 
-Check for Optimality:
+3. **Check Balance:**  
+   - The app automatically detects if total supply ≠ total demand.  
+   - If unbalanced, it automatically adds a **dummy source/destination** with **0 cost**, ensuring a balanced problem.
 
-If all d_ij are greater than or equal to 0, the current solution is optimal.
+4. **Define Cost Matrix:**  
+   Enter the cost per unit from each source to each destination.
 
-If any d_ij is negative, the solution can be improved.
+5. **Solve:**  
+   Click **“Find Optimal Solution”** to compute:
+   - The **Initial (VAM) Solution**
+   - The **Optimal (MODI) Solution**
 
-Improve the Solution (Iterate):
+6. **Review Results:**  
+   - ✅ **Optimal Solution Found!**  
+     Shows the minimum transportation cost and shipment plan.  
+   - 🧮 **Initial Solution (VAM):**  
+     Shows the first feasible plan and cost before optimization.
 
-Select the unallocated cell with the most negative d_ij. This is the new cell to enter the solution.
+---
 
-Form a closed loop (or "stepping-stone path") starting from this cell, alternating between currently allocated cells.
+## 📸 Example Output
 
-Find the minimum allocation in the "minus" corners of the loop.
+> *Add a screenshot of your running web app here.*
 
-Add this minimum value to the "plus" corners and subtract it from the "minus" corners, creating a new, better allocation.
+![App Screenshot Placeholder](assets/screenshot-placeholder.png)
 
-Repeat: Go back to Step 2 and repeat the MODI process until optimality (Step 4) is reached.
+---
 
-How to Use the App
+## 📂 Project Structure
 
-Define Sources: Use the "Add Source" button to create your supply points. Enter their names and supply capacity.
-
-Define Destinations: Use the "Add Destination" button to create your demand points. Enter their names and demand requirements.
-
-Check Balance: The app will show a message if your total supply and demand are not equal. If they are unbalanced, it will automatically add a dummy source or destination with 0 cost to solve the problem, which is the standard procedure.
-
-Define Cost Matrix: Fill in the table with the cost to ship one unit from each source to each destination.
-
-Solve: Click the "Find Optimal Solution" button.
-
-Review Results:
-
-Optimal Solution Found!: This box shows the final, minimum total cost and the optimal shipping plan from the MODI method.
-
-Initial Solution (VAM): This box shows the first solution found by VAM and its (higher) cost, allowing you to see the improvement made by the MODI method.
-
-[Add a screenshot of your running application here!]
