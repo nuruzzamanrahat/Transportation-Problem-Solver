@@ -1,10 +1,10 @@
-# 🚚 Project 2: Interactive Transportation Problem Solver
+# Project: Interactive Transportation Problem Solver
 
 ### 🔗 Live Demo & Usage
-> **View Live Demo:** [🔗 *Add your GitHub Pages link here after deployment*]  
-*(Example: https://yourusername.github.io/transportation-solver/)*
+> **View Live Demo:** 
+*(https://nuruzzamanrahat.github.io/Transportation-Prroblem-Solver/)*
 
-## 🧭 Project Overview
+## Project Overview
 
 This project is an **interactive web application** that solves the **classic Transportation Problem** from *Operations Research*.  
 
@@ -15,9 +15,9 @@ Given:
 
 The tool finds the **optimal shipping plan** that **minimizes total transportation cost**.
 
-### 📘 Optimization Algorithms Used
+### Optimization Algorithms Used
 
-This project directly implements two key algorithms from your Operations Research syllabus:
+This project directly implements two key algorithms :
 
 #### **Phase 1:** Vogel’s Approximation Method (VAM)
 A heuristic algorithm that finds a **high-quality Initial Basic Feasible Solution (IBFS)**.
@@ -62,9 +62,9 @@ Where:
 
 ---
 
-## 🧠 Methodology
+##  Methodology
 
-### 🧩 **Phase 1: Vogel’s Approximation Method (VAM)**
+###  **Phase 1: Vogel’s Approximation Method (VAM)**
 
 To begin optimization, we need a feasible initial solution.  
 VAM is a **smart heuristic** that provides an excellent starting solution — often close to the optimal one.
@@ -85,7 +85,7 @@ VAM is a **smart heuristic** that provides an excellent starting solution — of
 
 ---
 
-### 🔁 **Phase 2: Modified Distribution Method (MODI / UV Method)**
+###  **Phase 2: Modified Distribution Method (MODI / UV Method)**
 
 VAM provides a feasible starting solution. MODI ensures **optimality** by improving it iteratively.
 
@@ -121,7 +121,7 @@ VAM provides a feasible starting solution. MODI ensures **optimality** by improv
 
 ---
 
-## 🧑‍💻 How to Use the App
+## How to Use the App
 
 1. **Define Sources:**  
    Click “Add Source” to create supply points and specify their capacities.
@@ -142,9 +142,9 @@ VAM provides a feasible starting solution. MODI ensures **optimality** by improv
    - The **Optimal (MODI) Solution**
 
 6. **Review Results:**  
-   - ✅ **Optimal Solution Found!**  
+   -  **Optimal Solution Found!**  
      Shows the minimum transportation cost and shipment plan.  
-   - 🧮 **Initial Solution (VAM):**  
+   -  **Initial Solution (VAM):**  
      Shows the first feasible plan and cost before optimization.
 
 ---
