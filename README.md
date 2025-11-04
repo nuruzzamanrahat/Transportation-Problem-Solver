@@ -1,8 +1,8 @@
 # Project: Interactive Transportation Problem Solver
 
 ### 🔗 Live Demo & Usage
-> **View Live Demo:** 
-*(https://nuruzzamanrahat.github.io/Transportation-Prroblem-Solver/)*
+[► View Live Demo](https://nuruzzamanrahat.github.io/Transportation-Problem-Solver/) 🔗
+ 
 
 ## Project Overview
 
